@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  php:
+    container_name: php
+    build: .
+    depends_on:
+      - mysqlDB
+    ports:
+      - "54170:80"
+    volumes: 
+      - ./web/:/var/www/html/:ro
+    environment:
+      MYSQL_PASSWORD: "simplePass123"
+      MYSQL_USER: "hitchTeehee"
+      MYSQL_DATABASE: "hitchTeeheeDB"
+      MYSQL_HOST: "mysqlDB"
+
+
+  mysqlDB:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    command: --default_authentication_plugin=mysql_native_password
+    volumes:
+      - ./db-data:/docker-entrypoint-initdb.d
+      - ./conf:/etc/mysql/conf.data
+      - presistent:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: anotherSimplePass
+      MYSQL_PASSWORD: "simplePass123"
+      MYSQL_USER: "hitchTeehee"
+      MYSQL_DATABASE: "hitchTeeheeDB"
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_HOST: '%'
+    
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "54171:80"
+    environment:
+      PMA_PASSWORD: "anotherSimplePass"
+      PMA_USER: "root"
+      PMA_HOST: "mysqlDB"
+
+volumes:
+  presistent:

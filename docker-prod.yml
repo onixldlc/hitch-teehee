@@ -6,14 +6,15 @@ services:
     depends_on:
       - mysqlDB
     ports:
-      - "54170:80"
+      - "${PORT}:80"
     volumes: 
       - ./var/www/html/:/var/www/html/:ro
     environment:
-      MYSQL_PASSWORD: ${}
-      MYSQL_USER: "hitchTeehee"
-      MYSQL_DATABASE: "hitchTeeheeDB"
+      MYSQL_PASSWORD: "${SQL_DBPASS}"
+      MYSQL_USER: "${SQL_USER}"
+      MYSQL_DATABASE: "${SQL_DBNAME}"
       MYSQL_HOST: "mysqlDB"
+      HOST_NAME: "${HOST_NAME}"
 
   mysqlDB:
     container_name: mysql
@@ -25,10 +26,10 @@ services:
       - ./conf:/etc/mysql/conf.data
       - presistent:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 6cWytPCo1tWJfWW3xPTCKCDhinwXwUB9
-      MYSQL_PASSWORD: ${}
-      MYSQL_USER: "hitchTeehee"
-      MYSQL_DATABASE: "hitchTeeheeDB"
+      MYSQL_ROOT_PASSWORD: "${SQL_ROOTPASS}"
+      MYSQL_PASSWORD: "${SQL_DBPASS}"
+      MYSQL_USER: "${SQL_USER}"
+      MYSQL_DATABASE: "${SQL_DBNAME}"
       MYSQL_ROOT_HOST: '%'
       MYSQL_HOST: '%'
 

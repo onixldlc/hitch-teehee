@@ -2,13 +2,13 @@ version: "3.9"
 services:
   php:
     container_name: php
-    build: .
+    build: ./web/
     depends_on:
       - mysqlDB
     ports:
       - "${PORT}:80"
     volumes: 
-      - ./var/www/html/:/var/www/html/:ro
+      - ./web/src:/var/www/html/:ro
     environment:
       MYSQL_PASSWORD: "${SQL_DBPASS}"
       MYSQL_USER: "${SQL_USER}"

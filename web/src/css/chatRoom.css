@@ -1,0 +1,110 @@
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.topChat {
+  width: 100%;
+  height: calc(100% - 60px);
+  background-color: #18181b;
+}
+
+.topChat .top-chat-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  height: calc(100% - 1px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: auto;
+}
+
+.topChat .top-chat-content .messages {
+  font-family: sans-serif;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.topChat .top-chat-content .messages .username {
+  font-weight: bold;
+  color: red;
+  margin-left: 10px;
+}
+
+.topChat .top-chat-content .messages .divider {
+  font-weight: bold;
+}
+
+.topChat .top-chat-content .messages .message {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: 20px;
+  overflow-wrap: anywhere;
+}
+
+.bottomChat {
+  width: 100%;
+  height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #18181b;
+}
+
+.bottomChat .chatContainer {
+  width: 100%;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 10px 0 10px;
+}
+
+.bottomChat .chatContainer .chatInput {
+  width: 100%;
+  height: 100%;
+}
+
+.bottomChat .chatContainer .chatInput input {
+  width: calc( 100% - 10px);
+  margin-right: 10px;
+  background-color: #464646;
+  border: #0000 solid;
+  border-radius: 25px;
+}
+
+.bottomChat .chatContainer button {
+  width: 50px;
+  height: 25px;
+  background-color: #86ff98;
+  border: transparent solid;
+  border-radius: 5px;
+}
+
+.bottomChat .chatContainer button:hover {
+  background-color: #61cf71;
+}
+
+.bottomChat .chatContainer button:active {
+  background-color: #49a056;
+}
+/*# sourceMappingURL=chatRoom.css.map */

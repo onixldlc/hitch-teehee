@@ -18,6 +18,15 @@ services:
       HOST_NAME: "${HOST_NAME}"
       PORT: "${PORT}"
 
+  nodejs:
+    container_name: socketjs
+    build: ./webSocket/
+    volumes:
+      - ./webSocket/src/:/usr/src/app
+    ports:
+      - "${WS_PORT}:8000"
+    environment:
+      PHP_HOST: "php"
 
   mysqlDB:
     container_name: mysql
@@ -35,7 +44,7 @@ services:
       MYSQL_DATABASE: "${SQL_DBNAME}"
       MYSQL_ROOT_HOST: '%'
       MYSQL_HOST: '%'
-    
+  
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin

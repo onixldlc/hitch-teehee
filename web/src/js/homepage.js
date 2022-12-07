@@ -150,10 +150,10 @@ function createLoginPrompts(){
 			
 			<div class="devider"></div>
 
-			<input id="guess" type="radio" name="login-option" value="guess">
-			<label for="guess">
-				<div class="prompt-button guess" onclick="loginType()">
-					<div>Guess</div>
+			<input id="guest" type="radio" name="login-option" value="guest">
+			<label for="guest">
+				<div class="prompt-button guest" onclick="loginType()">
+					<div>Guest</div>
 				</div>
 			</label>
 
@@ -200,7 +200,7 @@ function loginUser(){
 `;
 }
 
-function guessUser(){
+function guestUser(){
 	return `
 <div class="login-prompt-bottom">
 
@@ -262,9 +262,14 @@ function registerUser(){
 
 
 
-function changeIframe(thread,Cred){
-	var chatIframe = document.getElementsByClassName("chat")[0].children[0]
-	chatIframe.src = `http://chat.${hitch_constant.hostname}/chat?username=${Cred.username}&color=${Cred.color}&thread=${thread}`
+function changeIframe(thread, Cred){
+	iframeUsername.value=Cred.username
+	iframeColor.value=Cred.color
+	iframeThread.value=thread
+	iframeUserid.value=Cred.userid
+	openChat.click()
+	// var chatIframe = document.getElementsByClassName("chat")[0].children[0]
+	// chatIframe.src = `http://chat.${hitch_constant.hostname}/chat.php?username=${Cred.username}&color=${Cred.color}&thread=${thread}`
 	// chatIframe.src = `http://chat.hitch.teehee:3000/chat?username=${Cred.username}&color=${Cred.color}&thread=${thread}`
 }
 
@@ -389,6 +394,9 @@ async function loginType(){
 			console.log(check);
 	
 			if(check.status == "success"){
+				credJson["userid"]=check.userdata.userid
+				credJson["username"]=check.userdata.username
+				credJson["color"]=check.userdata.color
 				closePrompt()
 			}
 			else{
@@ -402,14 +410,16 @@ async function loginType(){
 		var check = await checkIfExist(json);
 		
 	}
-	else if(type == "guess"){
-		bottomPrompt.innerHTML = guessUser()
+	else if(type == "guest"){
+		bottomPrompt.innerHTML = guestUser()
 		
 		bottomPrompt.getElementsByTagName("button")[0].onclick = async function(){
 			var json = grabInput();
 			var check = await checkIfExist(json);
 	
 			if(check.status == "success"){
+				credJson["userid"]="guest"
+				credJson.username+=" (guest)"
 				closePrompt()
 			}
 			else{
@@ -422,24 +432,36 @@ async function loginType(){
 		
 		bottomPrompt.getElementsByTagName("button")[0].onclick = async function(){
 			var json = grabInput();
-			register(json);
-			// closePrompt()
-			// alert("username is taken")
+			var check = await register(json);
+			if(check.status == "success"){
+				credJson["userid"]=check.userdata.userid
+				closePrompt()
+			}
+			else{
+				alert("username is already been registered")
+			}
 		}
 	}
+}
+
+function randomHexColor(){
+	let hexColor = "000000"
+	return hexColor.split("").map(()=>{
+		return Math.round(Math.random()*16).toString(16).toUpperCase()
+	}).join("")
 }
 
 function grabInput(){
 	credJson["username"] = document.getElementById("username").value;
 	credJson["password"] = document.getElementById("password").value;
-	credJson["color"] = (document.getElementById("color")) ? (document.getElementById("color").value).substring(1) : "000000";
-	credJSON["PHPSESSID"] = hitch_constant.cookies.PHPSESSID
+	credJson["color"] = (document.getElementById("color")) ? (document.getElementById("color").value).substring(1) : randomHexColor();
 	// credJson["color"] = (document.getElementById("color").value).substring(1) || "000000";
 	return credJson
 }
 
 function authenticate(credJson){
-	var data = fetch(String(document.location).replace('home', 'auth'),{
+	let url = `http://api.${hitch_constant.hostname}/api/auth/login.php`
+	var data = fetch(url,{
 		method: "POST",
 		headers: {"Content-Type":"application/json"},
 		body: JSON.stringify({"username":credJson.username, "password":credJson.password}),
@@ -452,7 +474,8 @@ function authenticate(credJson){
 }
 
 function checkIfExist(credJson){
-	var data = fetch(String(document.location).replace('home', 'check-if-user-exist'),{
+	let url = `http://api.${hitch_constant.hostname}/api/auth/check-if-user-exist.php`
+	var data = fetch(url,{
 		method: "POST",
 		headers: {"Content-Type":"application/json"},
 		body: JSON.stringify({"username":credJson.username}),
@@ -464,7 +487,7 @@ function checkIfExist(credJson){
 	return data;
 }
 
-async function register(credJson){
+function register(credJson){
 	// var check = await checkIfExist(credJson);
 	// console.log(check.status)
 	// if(check.status != "success"){
@@ -472,12 +495,12 @@ async function register(credJson){
 	// }
 	let url = `http://api.${hitch_constant.hostname}/api/auth/register.php`
 	console.log(url);
-	var data = await fetch(url,{
+	var data = fetch(url,{
 		method: "POST",
 		headers: {"Content-Type":"application/json"},
 		body: JSON.stringify(credJson),
 	})
-	.then(response => response.text())
+	.then(response => response.json())
 	.then(data => {
 		console.log(data)
 		return data;

@@ -321,4 +321,9 @@ body .invisible-inputs {
 .login-container .login-prompt .login-prompt-bottom .prompt-form .color-input-and-button .close-button:active {
   background-color: #883f3f;
 }
+
+#chatForm{
+  display: none;
+}
+
 /*# sourceMappingURL=home.css.map */

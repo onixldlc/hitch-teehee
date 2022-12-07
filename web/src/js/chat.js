@@ -3,8 +3,8 @@ let hitch_constant={
 	hostname: location.host
 }
 
-console.log(`ws://${hitch_constant.hostname}`)
-const socket = io(`ws://${hitch_constant.hostname}`);
+console.log(`ws://${hitch_constant.hostname.replace(":8080",":8082")}`)
+const socket = io(`ws://${hitch_constant.hostname.replace(":8080",":8082")}`);
 
 
 function createNewMessage(Username, Message, Timestamp, color){
@@ -36,25 +36,32 @@ function createTimestamp(){
 	return String(`${padLeadingZeros(hour, 2)}:${padLeadingZeros(minutes, 2)}`);
 }
 
-function sendInput(username,color,thread){
+function sendInput(username,color,userid,thread){
 	var messageDiv = document.getElementsByClassName("chatInput")[0].children[0];
 	var message = messageDiv.value;
 	if(username && message && color){
-		socket.emit('message',{"timestamp":createTimestamp(),"username":username,"message":message,"color":color,"thread":thread});
+		socket.emit('message',{"timestamp":createTimestamp(),"userid":userid,"username":username,"message":message,"color":color,"thread":thread});
 		messageDiv.value = "";
 	}
 }
 
 function init(){
-	var cred = parseURLParams(String(window.location))
+	var cred = window.cred;
 	var username; 
 	var color; 
 	var thread; 
+	var userid;
+
+	console.log(cred)
 
 	if(cred){
+		window.cred=null;
+		document.head.getElementsByTagName("script")[2].innerHTML="";
+
 		username = cred.username;
 		color = cred.color;
 		thread = cred.thread;
+		userid = cred.userid;
 	}
 	else{
 		var container = document.getElementsByClassName("chatContainer")[0];
@@ -66,22 +73,22 @@ function init(){
 		button.style = "background-color: #3b3b3b;"
 	}
 
-	fetch(`${hitch_constant.origin}/grab-messages`,{
-		method: "POST",
-		headers: {"Content-Type":"application/json"},
-		body: JSON.stringify({"thread":thread}),
-	})
-	.then(response => response.json())
-	.then(data => {
-		data.forEach((json) => {
-			addNewMessage(createNewMessage(json.username, json.message, json.timestamp, json.color))
-		});
-	})
+	// fetch(`${hitch_constant.origin}/grab-messages`,{
+	// 	method: "POST",
+	// 	headers: {"Content-Type":"application/json"},
+	// 	body: JSON.stringify({"thread":thread}),
+	// })
+	// .then(response => response.json())
+	// .then(data => {
+	// 	data.forEach((json) => {
+	// 		addNewMessage(createNewMessage(json.username, json.message, json.timestamp, json.color))
+	// 	});
+	// })
 
 	if(thread == undefined){
 		thread = "global"
 	}
-	document.getElementsByClassName("chatContainer")[0].children[1].onclick=function(){sendInput(username,color,thread)};
+	document.getElementsByClassName("chatContainer")[0].children[1].onclick=function(){sendInput(username,color,userid,thread)};
 	document.getElementsByTagName("title")[0].innerText = thread
 }
 

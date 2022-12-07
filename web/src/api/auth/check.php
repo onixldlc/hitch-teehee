@@ -1,7 +1,8 @@
 <?php
-    function checkIfUserExist($conn, $username, $userid){
+    function checkIfUserExist(mysqli $conn, $username, $userid){
         $result = $conn->query("SELECT count(*) FROM users WHERE username = '{$username}' OR userid = '{$userid}'");
-        return $result->fetch_array()[0];
+        $data = $result->fetch_column();
+        return $data;
     }
     
 ?>

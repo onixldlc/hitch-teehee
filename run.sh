@@ -9,6 +9,7 @@ SQL_PORT=3306
 PMA_PORT=8081
 PORT=8080
 HOST_NAME="hitch.teehee"
+WS_PORT=8082
 
 # bash script variables
 PROD="docker-prod.yml"
@@ -26,6 +27,7 @@ SQL_PORT=${SQL_PORT}
 PMA_PORT=${PMA_PORT}
 PORT=${PORT}
 HOST_NAME=${HOST_NAME}
+WS_PORT=${WS_PORT}
 EOM
 
 # let owner know the password and port

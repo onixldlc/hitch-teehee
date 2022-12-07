@@ -16,6 +16,14 @@ services:
       MYSQL_HOST: "mysqlDB"
       HOST_NAME: "${HOST_NAME}"
 
+  nodejs:
+    container_name: socketjs
+    build: ./webSocket/
+    ports:
+      - "${WS_PORT}:8000"
+    environment:
+      PHP_HOST: "php"
+
   mysqlDB:
     container_name: mysql
     image: mysql:latest

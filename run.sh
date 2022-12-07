@@ -55,6 +55,10 @@ function compose () {
   docker-compose -f "$1" up
 }
 
+# function to move default files to host
+function setupDB () {
+  [[ -d "./db-data/" ]] && echo "db is ready" || cp -r ./default/db-data/ ./
+}
 
 echo "running docker in: ${MODE} mode"
 YML="$PROD"

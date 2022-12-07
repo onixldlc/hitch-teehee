@@ -321,7 +321,6 @@ function init(){
 
 	var threads = "";
 	threads += createThread("Global","forum-img_global.png","nice to see you man bla bla bla next next AA...",1)
-	threads += createThread("Main","forum-img_main.png","nice to see you man bla bla bla next next AA...")
 	
 	document.getElementsByClassName("thread-container")[0].innerHTML = threads;
 

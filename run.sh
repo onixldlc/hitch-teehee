@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # docker dynamic variables
-SQL_ROOTPASS=$(head -c 24 /dev/random | base64)
-SQL_DBPASS=$(head -c 12 /dev/random | base64)
+SQL_ROOTPASS="ZT38pvp4fCj2Pj5Mf7E6yLhHr4CYcFyS"
+SQL_DBPASS="Ez44hEcrc9gBQmet"
 SQL_DBNAME="hitchTeeheeDB"
 SQL_USER="hitchTeehee"
 SQL_PORT=3306

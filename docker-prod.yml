@@ -35,12 +35,9 @@ services:
       - ./db-data:/var/lib/mysql
       - ./conf:/etc/mysql/conf.data
     environment:
-      MYSQL_ROOT_PASSWORD: "ZT38pvp4fCj2Pj5Mf7E6yLhHr4CYcFyS"
+      MYSQL_ROOT_PASSWORD: "${SQL_ROOTPASS}"
       MYSQL_PASSWORD: "${SQL_DBPASS}"
       MYSQL_USER: "${SQL_USER}"
       MYSQL_DATABASE: "${SQL_DBNAME}"
       MYSQL_ROOT_HOST: '%'
       MYSQL_HOST: '%'
-
-volumes:
-  presistent:

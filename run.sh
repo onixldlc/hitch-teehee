@@ -64,5 +64,6 @@ echo "running docker in: ${MODE} mode"
 YML="$PROD"
 [[ "${MODE}" == "DEV" ]] && YML="$DEV"
 
+setupDB
 compose "$YML"
 

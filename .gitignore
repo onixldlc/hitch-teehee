@@ -1,3 +1,5 @@
 .env
 .MODE
 node_modules
+/db-data/
+/db-data/*
